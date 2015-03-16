@@ -12,14 +12,14 @@ if(flag)
     nCols = 60; %body
     extension='_body';
 else
-    nCols = 60; %face
+    nCols = 20; %face
     extension='_face';
 end
 
-format = ['%d' repmat('%f', [1 nCols])];
+format = ['%d' repmat(',%f', [1 nCols])];
 
 for i = 1:length(uniqueFiles)
-    fidv = fopen([featTextPath,uniqueFiles(i),extension,'.txt'],'r');
+    fidv = fopen([featTextPath,uniqueFiles(i),extension,'.csv'],'r');
     data = textscan(fidv,format,'Delimiter','\n');
     
     find(allFiles,uniqueFiles(i));
