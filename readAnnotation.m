@@ -13,6 +13,6 @@ for i =1:length(A);
     end
 end
 
-EmotionEvents = cell2struct(B',{'Label','startTime','endTime','Description','FileName'});
+EmotionEvents = cell2struct(B',{'dabel','startTime','endTime','description','fileName'});
 
 
