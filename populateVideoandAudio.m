@@ -1,33 +1,27 @@
-clc
-clear all
-close all
+% clc
+% clear all
+% close all
+% 
+% load EmotionEvents
+% 
+% EmotionEvent = EmotionEvents(1);
+% 
+% pathtoVideoFile = 'C:\Users\Shabbir\Documents\GitHub\SCE_project\FrenchDatasetVideos\';
 
-load EmotionEvents
+function [tempVid, audio]  = populateVideoandAudio(EmotionEvent,pathtoVideoDir)
+xyloObj = VideoReader([pathtoVideoDir,EmotionEvent.fileName,'.mp4']);
+fps = xyloObj.FrameRate;
+vidHeight = xyloObj.Height;
+vidWidth = xyloObj.Width;
 
-EmotionEvent = EmotionEvents(1);
+startFrame = EmotionEvent.startTime/1000*fps;
+endFrame = EmotionEvent.endTime/1000*fps;
 
-pathtoVideoFile = 'C:\Users\Shabbir\Documents\GitHub\SCE_project\FrenchDatasetVideos\';
+TotalFrames = floor(endFrame-startFrame);  
+tempVid = zeros(vidHeight,vidWidth,3,TotalFrames+1);
 
-
-
-%function [audio, video]  = populateVideoandAudio(EmotionEvent,pathtoVideoFile)
-videoFReader = vision.VideoFileReader([pathtoVideoFile,EmotionEvent.fileName,'.mp4']);
-videoPlayer = vision.VideoPlayer;
-
-startFrame = EmotionEvent.startTime/1000*30;
-endFrame = EmotionEvent.endTime/1000*30;
-
-
-for i = 1:startFrame-1
-[videoFrame] = step(videoFReader);
+for k = 0 : TotalFrames
+    tempVid(:,:,:,k+1) = read(xyloObj,startFrame+k);
 end
 
-k = 1;
-while k < endFrame - startFrame
-  [videoFrame] = step(videoFReader);
-  step(videoPlayer, videoFrame);
-  k = k+1;
-end
-
-release(videoPlayer);
-release(videoFReader);
+audio = [];

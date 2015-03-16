@@ -3,5 +3,6 @@ clear all
 close all
 
 load EmotionEvents
-
-function [audio, video]  = populateVideoandAudio(EmotionEvent,pathtoVideoFile)
+pathtoVideoDir = './FrenchDatasetVideos/';
+ 
+[v,a] =  populateVideoandAudio(EmotionEvents(1),pathtoVideoDir);
