@@ -10,6 +10,7 @@
 
 function [tempVid, audio]  = populateVideoandAudio(EmotionEvent,pathtoVideoDir)
 xyloObj = VideoReader([pathtoVideoDir,EmotionEvent.fileName,'.mp4']);
+
 fps = xyloObj.FrameRate;
 vidHeight = xyloObj.Height;
 vidWidth = xyloObj.Width;
@@ -19,9 +20,12 @@ endFrame = EmotionEvent.endTime/1000*fps;
 
 TotalFrames = floor(endFrame-startFrame);  
 tempVid = zeros(vidHeight,vidWidth,3,TotalFrames+1);
-
+mov = struct('cdata',zeros(vidHeight,vidWidth,3,'uint8'),...
+    'colormap',[]);
 for k = 0 : TotalFrames
-    tempVid(:,:,:,k+1) = read(xyloObj,startFrame+k);
+     mov(k+1).cdata = read(xyloObj,startFrame+k);
+     tempVid(:,:,:,k+1)= mov(k+1).cdata;
+     
 end
 
-audio = [];
+audio = mov;%[];
