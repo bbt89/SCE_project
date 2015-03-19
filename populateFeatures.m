@@ -1,4 +1,4 @@
-function [ features ] = populateFeatures( EmotionEvents, flag)
+function [ features ] = PopulateFeatures( EmotionEvents, flag)
 %populateFeatures Summary of this function goes here
 %   flag --> 0: face, 1: body
 
