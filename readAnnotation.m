@@ -14,7 +14,7 @@ for i =1:length(A);
     end
 end
 
-EmotionEvents = cell2struct(B',{'label','startTime','endTime','description','fileName'});
+EmotionEvents = cell2struct(B',{'type','startTime','endTime','description','fileName'});
 
 for i=1:length(EmotionEvents)
     EmotionEvents(i).fileName = EmotionEvents(i).fileName(1:end-4);
