@@ -5,11 +5,10 @@ close all
 load EmotionEvents
 videoPath = './FrenchDatasetVideos/';
 audioPath = '';
-featurePath = './textSource/';
-
-SelectedEmotionEvents = EmotionEvents(strcmp(extractfield(EmotionEvents,'type'),'Laughter'));
-
+fea
+SelectedEmotionEvents = EmotionEvents(strcmp(extractfield(EmotionEvents,'label'),'Laughter'));
 % hf = figure;
+
 % for i = 1:length(SelectedEmotionEvents)
 % [mov,~] =  populateVideoandAudio(SelectedEmotionEvents(i),pathtoVideoDir);
 % movie(hf,mov,1,30);
@@ -17,7 +16,7 @@ SelectedEmotionEvents = EmotionEvents(strcmp(extractfield(EmotionEvents,'type'),
 % pause
 % end
 
-testfileName = '20150216_144639_00';
+fileName = '20150216_144639_00'
 
-[timeStamp, final, finalSmoothed] = CreateLaughterStreamFromFaceProps(testfileName,featurePath,2);
+
 

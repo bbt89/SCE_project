@@ -1,8 +1,8 @@
-function [ features ] = PopulateFeatures( EmotionEvents, flag)
+function [ features ] = PopulateFeatures( EmotionEvents, flag, featTextPath)
 %populateFeatures Summary of this function goes here
 %   flag --> 0: face, 1: body
 
-featTextPath='textSource/';
+%featTextPath='textSource/';
 relativeTimetoMsecFactor=1/10000;
 
 sampleNum=length(EmotionEvents);
