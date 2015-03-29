@@ -1,1 +1,0 @@
-function features = GrabFacialFeatures(EmotionEvent,path)

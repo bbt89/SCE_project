@@ -9,7 +9,7 @@ SelectedEmotionEvents = EmotionEvents(strcmp(extractfield(EmotionEvents,'label')
 hf = figure;
 
 for i = 1:length(SelectedEmotionEvents)
-%[v,mov] =  populateVideoandAudio(SelectedEmotionEvents(i),pathtoVideoDir);
+[mov,~] =  populateVideoandAudio(SelectedEmotionEvents(i),pathtoVideoDir);
 
 movie(hf,mov,1,30);
 drawnow;
