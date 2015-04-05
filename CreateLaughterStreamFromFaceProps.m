@@ -10,12 +10,19 @@ happinessLabel = zeros(size(timeStamp));
 happinessLabel(ind) = features(:,2);
 
 mouthOpenedLabel = zeros(size(timeStamp));
-mouthOpenedLabel(ind) = features(:,6);
+mouthOpenedLabel(ind) = features(:,7);
 
 happinessLabel = happinessLabel==3;
 mouthOpenedLabel = mouthOpenedLabel==3;
 
-final =  happinessLabel & mouthOpenedLabel;
+A =  zeros(size(timeStamp));
+A(ind) = features(:,5);
+
+B =  zeros(size(timeStamp));
+B(ind) = features(:,6);
+
+
+final =  happinessLabel & mouthOpenedLabel & ((A==3)|(B==3));
 
 %filterSizePred=2;
 predict_label_temp=[final(1:filterSizePred);final;final(end-(filterSizePred+1):end)];
