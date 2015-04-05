@@ -12,6 +12,8 @@ textSource/
 source/
 FrenchDatasetVideos/
 
+*.asv
+
 # Windows Installer files
 *.cab
 *.msi
