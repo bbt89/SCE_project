@@ -4,9 +4,6 @@ LAUGHTER = 1;
 BREATHING = 2;
 REJECT = 3;
 
-load ./Dataset/AffectDataSync
-% Removing Other class
-AffectDataSync(strcmp(extractfield(AffectDataSync,'label'),'Other'))=[];
 
 % label and feature extraction
 LABEL=extractfield(AffectDataSync,'label')';

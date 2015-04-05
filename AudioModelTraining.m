@@ -4,9 +4,10 @@ LAUGHTER = 1;
 BREATHING = 2;
 REJECT = 3;
 
-load ./Dataset/AffectDataSync
-% Removing Other class
-AffectDataSync(strcmp(extractfield(AffectDataSync,'label'),'Other'))=[];
+load source/AudioSamplesMFCC_IEMOCAP.mat
+load source/AudioSamplesMFCC_AVLaughterCycle.mat
+
+AffectDataSync=[AudioSamplesMFCC_IEMOCAP;AudioSamplesMFCC_AVLaughterCycle];
 
 % label and feature extraction
 LABEL=extractfield(AffectDataSync,'label')';
