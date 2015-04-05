@@ -7,26 +7,42 @@ videoPath = './FrenchDatasetVideos/';
 audioPath = '';
 featurePath = './textSource/';
 
-testfileName = '20150216_153807_00';
+testfileName = '20150216_134553_00';
 
 SelectedEmotionEvents = EmotionEvents(strcmp(extractfield(EmotionEvents,'fileName'),'testfileName'));
-[timeStamp, final, finalSmoothed] = CreateLaughterStreamFromFaceProps(testfileName,featurePath,0);
-%[timeStamp, final] = CreateStreamFromFaceProps(testfileName,featurePath);
+[timeStamp, final] = CreateStreamFromFaceProps(testfileName,featurePath);
 
-temp = conv(finalSmoothed,[1,-1],'same');
-startTimes = timeStamp(find(temp==1) + 1) ;
-endTimes = timeStamp(temp==-1);
+happinessLabel = final(:,1);
+mouthOpenedLabel = final(:,6);
+happinessLabel = happinessLabel==3;
+mouthOpenedLabel = mouthOpenedLabel==3;
 
-C = num2cell([startTimes,endTimes]);
-C(:,3) = repmat({'Laughter'},length(startTimes),1);
-fileID = fopen('auto.txt','w');
-formatSpec = '%f\t%f\t%s\n';
+laughterStream =  happinessLabel & mouthOpenedLabel;
+laughterStreamA = DilationErosionFilter(laughterStream, 11,11);
+laughterStreamB = ErosionDilationFilter(laughterStreamA,21,21);
 
-[nrows,ncols] = size(C);
-for row = 1:nrows
-    fprintf(fileID,formatSpec,C{row,:});
-end
-fclose(fileID);
+bar(double(laughterStreamB));
+hold on;
+bar(double(laughterStreamA)/2,'r');
+
+ylim([0 2])
+
+%[timeStamp, final, finalSmoothed] = CreateLaughterStreamFromFaceProps(testfileName,featurePath,0);
+
+% temp = conv(finalSmoothed,[1,-1],'same');
+% startTimes = timeStamp(find(temp==1) + 1) ;
+% endTimes = timeStamp(temp==-1);
+% 
+% C = num2cell([startTimes,endTimes]);
+% C(:,3) = repmat({'Laughter'},length(startTimes),1);
+% fileID = fopen('auto.txt','w');
+% formatSpec = '%f\t%f\t%s\n';
+% 
+% [nrows,ncols] = size(C);
+% for row = 1:nrows
+%     fprintf(fileID,formatSpec,C{row,:});
+% end
+% fclose(fileID);
 
 %image(final')
 % hf = figure;
