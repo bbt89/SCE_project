@@ -7,43 +7,46 @@ videoPath = './FrenchDatasetVideos/';
 audioPath = '';
 featurePath = './textSource/';
 
-testfileName = '20150216_134553_00';
 
-SelectedEmotionEvents = EmotionEvents(strcmp(extractfield(EmotionEvents,'fileName'),'testfileName'));
-[timeStamp, final] = CreateStreamFromFaceProps(testfileName,featurePath);
+files = dir([videoPath,'*-faceprops.csv']);
 
-happinessLabel = final(:,1);
-mouthOpenedLabel = final(:,6);
-happinessLabel = happinessLabel==3;
-mouthOpenedLabel = mouthOpenedLabel==3;
-
-laughterStream =  happinessLabel & mouthOpenedLabel;
-laughterStreamA = DilationErosionFilter(laughterStream, 11,11);
-laughterStreamB = ErosionDilationFilter(laughterStreamA,21,21);
-
-bar(double(laughterStreamB));
-hold on;
-bar(double(laughterStreamA)/2,'r');
-
-ylim([0 2])
-
-%[timeStamp, final, finalSmoothed] = CreateLaughterStreamFromFaceProps(testfileName,featurePath,0);
-
-% temp = conv(finalSmoothed,[1,-1],'same');
-% startTimes = timeStamp(find(temp==1) + 1) ;
-% endTimes = timeStamp(temp==-1);
-% 
-% C = num2cell([startTimes,endTimes]);
-% C(:,3) = repmat({'Laughter'},length(startTimes),1);
-% fileID = fopen('auto.txt','w');
-% formatSpec = '%f\t%f\t%s\n';
-% 
-% [nrows,ncols] = size(C);
-% for row = 1:nrows
-%     fprintf(fileID,formatSpec,C{row,:});
-% end
-% fclose(fileID);
-
+for i =1:length(files)
+    testfileName = files(i).name(1:end-14);%'20150216_134553_00';
+    SelectedEmotionEvents = EmotionEvents(strcmp(extractfield(EmotionEvents,'fileName'),'testfileName'));
+    [timeStamp, final] = CreateStreamFromFaceProps(testfileName,videoPath);
+    
+    happinessLabel = final(:,1);
+    mouthOpenedLabel = final(:,6);
+    happinessLabel = happinessLabel==3;
+    mouthOpenedLabel = mouthOpenedLabel==3;
+    
+    laughterStream =  happinessLabel & mouthOpenedLabel & ((final(:,4)==3)|(final(:,5)==3));
+    laughterStreamA = DilationErosionFilter(laughterStream, 31,31);
+    laughterStreamB = ErosionDilationFilter(laughterStreamA,31,31);
+    
+    bar(double(laughterStreamB));
+    hold on;
+    bar(double(laughterStreamA)/2,'r');
+    hold off;
+    ylim([0 2])
+    pause
+    %[timeStamp, final, finalSmoothed] = CreateLaughterStreamFromFaceProps(testfileName,featurePath,0);
+    
+    temp = conv(laughterStreamB,[1,-1],'same');
+    startTimes = timeStamp(find(temp==1) + 1) ;
+    endTimes = timeStamp(temp==-1);
+    
+    C = num2cell([startTimes,endTimes]);
+    C(:,3) = repmat({'Laughter'},length(startTimes),1);
+    fileID = fopen([videoPath,testfileName,'-auto.txt'],'w');
+    formatSpec = '%f\t%f\t%s\n';
+    
+    [nrows,ncols] = size(C);
+    for row = 1:nrows
+        fprintf(fileID,formatSpec,C{row,:});
+    end
+    fclose(fileID);
+end
 %image(final')
 % hf = figure;
 % for i = 1:length(SelectedEmotionEvents)
