@@ -1,4 +1,5 @@
 % training a model
+clear all
 
 LAUGHTER = 1;
 BREATHING = 2;
@@ -8,7 +9,17 @@ load source/AudioSamplesMFCC_IEMOCAP.mat
 load source/AudioSamplesMFCC_AVLaughterCycle.mat
 load source/AudioSamplesMFCC_IEMOCAPreject.mat
 
-AffectDataSync=[AudioSamplesMFCC_IEMOCAP;AudioSamplesMFCC_AVLaughterCycle;AudioSamplesMFCC_IEMOCAPreject];
+% normalization
+
+[ AudioSamplesMFCC_IEMOCAP ] = AudioSamplesMFCCNormalization( [AudioSamplesMFCC_IEMOCAP;AudioSamplesMFCC_IEMOCAPreject] );
+[ AudioSamplesMFCC_AVLaughterCycle ] = AudioSamplesMFCCNormalization( AudioSamplesMFCC_AVLaughterCycle );
+
+AffectDataSync=[AudioSamplesMFCC_IEMOCAP;AudioSamplesMFCC_AVLaughterCycle];
+
+% % loading normalized
+% load source/AudioSamplesMFCC_DBnorm2DBs.mat
+% AffectDataSync=AudioSamplesMFCC_DBnorm2DBs;
+% clear AudioSamplesMFCC_DBnorm2DBs
 
 % label and feature extraction
 LABEL=extractfield(AffectDataSync,'label')';
@@ -27,6 +38,6 @@ end
 
 nfoldCV = 3;
 cRange=[-2 4 34];
-gRange=[-13 1 -10];%gRange=[-13 1 -8];
+gRange=[-12 1 -10];%gRange=[-13 1 -8];
 
 [model, bestParam, grid ]= learn_on_trainingData(data, label, cRange, gRange, nfoldCV, 0);
