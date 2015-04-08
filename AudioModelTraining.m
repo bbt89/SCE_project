@@ -5,21 +5,21 @@ LAUGHTER = 1;
 BREATHING = 2;
 REJECT = 3;
 
-load source/AudioSamplesMFCC_IEMOCAP.mat
-load source/AudioSamplesMFCC_AVLaughterCycle.mat
-load source/AudioSamplesMFCC_IEMOCAPreject.mat
+% load source/AudioSamplesMFCC_IEMOCAP.mat
+% load source/AudioSamplesMFCC_AVLaughterCycle.mat
+% load source/AudioSamplesMFCC_IEMOCAPreject.mat
+% 
+% % normalization
+% 
+% [ AudioSamplesMFCC_IEMOCAP ] = AudioSamplesMFCCNormalization( [AudioSamplesMFCC_IEMOCAP;AudioSamplesMFCC_IEMOCAPreject] );
+% [ AudioSamplesMFCC_AVLaughterCycle ] = AudioSamplesMFCCNormalization( AudioSamplesMFCC_AVLaughterCycle );
+% 
+% AffectDataSync=[AudioSamplesMFCC_IEMOCAP;AudioSamplesMFCC_AVLaughterCycle];
 
-% normalization
-
-[ AudioSamplesMFCC_IEMOCAP ] = AudioSamplesMFCCNormalization( [AudioSamplesMFCC_IEMOCAP;AudioSamplesMFCC_IEMOCAPreject] );
-[ AudioSamplesMFCC_AVLaughterCycle ] = AudioSamplesMFCCNormalization( AudioSamplesMFCC_AVLaughterCycle );
-
-AffectDataSync=[AudioSamplesMFCC_IEMOCAP;AudioSamplesMFCC_AVLaughterCycle];
-
-% % loading normalized
-% load source/AudioSamplesMFCC_DBnorm2DBs.mat
-% AffectDataSync=AudioSamplesMFCC_DBnorm2DBs;
-% clear AudioSamplesMFCC_DBnorm2DBs
+% loading normalized
+load source/AudioSamplesMFCC_DBnorm2DBs.mat
+AffectDataSync=AudioSamplesMFCC_DBnorm2DBs;
+clear AudioSamplesMFCC_DBnorm2DBs
 
 % label and feature extraction
 LABEL=extractfield(AffectDataSync,'label')';
