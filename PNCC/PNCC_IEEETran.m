@@ -17,12 +17,13 @@
 % Default
 % 0.5, 0.01, 2, 4
 %
-function [aadDCT] = PNCC_IEEETran(szOutFeatFileName, szInFileName)
+function [aadDCT] = PNCC_IEEETran( szInFileName)
 
-	fid = fopen(szInFileName, 'rb');
-	fseek(fid, 1024, 'bof');
-	ad_x  = fread(fid, 'int16');
-	fclose(fid);
+% 	fid = fopen(szInFileName, 'rb');
+% 	fseek(fid, 1024, 'bof');
+% 	ad_x  = fread(fid, 'int16');
+% 	fclose(fid);
+    ad_x = szInFileName;
 
 	dLamda_L = 0.999;
 	dLamda_S = 0.999;
@@ -59,7 +60,7 @@ function [aadDCT] = PNCC_IEEETran(szOutFeatFileName, szInFileName)
 	bDisplay        = 0;
      
 
-	dFrameLen     = 0.0256;  % 25.6 ms window length, which is the default setting in CMU Sphinx
+	dFrameLen     = 0.025;  % 25.6 ms window length, which is the default setting in CMU Sphinx
 	dFramePeriod = 0.010;   % 10 ms frame period
 	iPowerFactor  = 1;
 
@@ -336,12 +337,12 @@ function [aadDCT] = PNCC_IEEETran(szOutFeatFileName, szInFileName)
 	%
 	% Writing the feature in Sphinx format
 	%
-	[iM, iN] = size(aadDCT);
-	iNumData = iM * iN;
-	fid = fopen(szOutFeatFileName, 'wb');
-	fwrite(fid, iNumData, 'int32');
-	iCount = fwrite(fid, aadDCT(:), 'float32');
-	fclose(fid);
+% 	[iM, iN] = size(aadDCT);
+% 	iNumData = iM * iN;
+% 	fid = fopen(szOutFeatFileName, 'wb');
+% 	fwrite(fid, iNumData, 'int32');
+% 	iCount = fwrite(fid, aadDCT(:), 'float32');
+% 	fclose(fid);
     
 end
 

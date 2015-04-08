@@ -19,11 +19,12 @@
 %
 function [aadDCT] = PNCC_IEEETranForDemo(szOutFeatFileName, szInFileName, bSSF, bPowerLaw)
 
-	fid = fopen(szInFileName, 'rb');
-	fseek(fid, 1024, 'bof');
-	ad_x  = fread(fid, 'int16');
-	fclose(fid);
-
+	%fid = fopen(szInFileName, 'rb');
+	%fseek(fid, 1024, 'bof');
+	%ad_x  = fread(fid, 'int16');
+	%fclose(fid);
+    ad_x = szInFileName;
+    
 	dLamda_L = 0.999;
 	dLamda_S = 0.999;
 
