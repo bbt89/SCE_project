@@ -13,6 +13,7 @@ source/
 FrenchDatasetVideos/
 
 *.asv
+temp.*
 
 # Windows Installer files
 *.cab
