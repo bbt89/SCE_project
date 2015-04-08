@@ -1,9 +1,9 @@
 % training a model
 clear all
 
-LAUGHTER = 1;
-BREATHING = 2;
-REJECT = 3;
+% MFCCnotPNCC=0;
+% path_AVlaughterCycle='D:\JOKER\Databases\AVLaughterCycle\phonetic annotation\segmentedLaughs\';
+% [ AudioSamplesPNCC_AVLaughterCycle ] = ExtractAudioSamplesMFCCFromSegmentedFiles(path_AVlaughterCycle, MFCCnotPNCC);
 
 % load source/AudioSamplesMFCC_IEMOCAP.mat
 % load source/AudioSamplesMFCC_AVLaughterCycle.mat
@@ -16,10 +16,28 @@ REJECT = 3;
 % 
 % AffectDataSync=[AudioSamplesMFCC_IEMOCAP;AudioSamplesMFCC_AVLaughterCycle];
 
-% loading normalized
-load source/AudioSamplesMFCC_DBnorm2DBs.mat
-AffectDataSync=AudioSamplesMFCC_DBnorm2DBs;
-clear AudioSamplesMFCC_DBnorm2DBs
+% % loading normalized
+% load source/AudioSamplesMFCC_DBnorm2DBs.mat
+% AffectDataSync=AudioSamplesMFCC_DBnorm2DBs;
+% clear AudioSamplesMFCC_DBnorm2DBs
+
+
+load source/AudioSamplesPNCC_IEMOCAP.mat
+load source/AudioSamplesPNCC_AVLaughterCycle.mat
+load source/AudioSamplesPNCC_IEMOCAPreject.mat
+
+% normalization
+
+[ AudioSamplesPNCC_IEMOCAP ] = AudioSamplesMFCCNormalization( [AudioSamplesPNCC_IEMOCAP;AudioSamplesPNCC_IEMOCAPreject] );
+[ AudioSamplesPNCC_AVLaughterCycle ] = AudioSamplesMFCCNormalization( AudioSamplesPNCC_AVLaughterCycle );
+
+AffectDataSync=[AudioSamplesPNCC_IEMOCAP;AudioSamplesPNCC_AVLaughterCycle];
+
+
+
+LAUGHTER = 1;
+BREATHING = 2;
+REJECT = 3;
 
 % label and feature extraction
 LABEL=extractfield(AffectDataSync,'label')';
