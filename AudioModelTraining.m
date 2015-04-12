@@ -33,7 +33,9 @@ load source/AudioSamplesPNCC_IEMOCAPreject.mat
 
 AffectDataSync=[AudioSamplesPNCC_IEMOCAP;AudioSamplesPNCC_AVLaughterCycle];
 
-
+% AffectDataSync=[AudioSamplesPNCC_IEMOCAP;AudioSamplesPNCC_AVLaughterCycle;AudioSamplesPNCC_IEMOCAPreject];
+ind = randperm(length(AffectDataSync));
+AffectDataSync = AffectDataSync(ind);
 
 LAUGHTER = 1;
 BREATHING = 2;
@@ -55,7 +57,7 @@ for i=1:length(AffectDataSync)
 end
 
 nfoldCV = 3;
-cRange=[-2 4 34];
-gRange=[-12 1 -10];%gRange=[-13 1 -8];
+cRange=[-2 4 14];%cRange=[-2 4 34];
+gRange=[-16 1 -13];%gRange=[-13 1 -8];
 
 [model, bestParam, grid ]= learn_on_trainingData(data, label, cRange, gRange, nfoldCV, 0);
