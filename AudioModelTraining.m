@@ -3,7 +3,7 @@ clear all
 
 % MFCCnotPNCC=0;
 % path_AVlaughterCycle='D:\JOKER\Databases\AVLaughterCycle\phonetic annotation\segmentedLaughs\';
-% [ AudioSamplesPNCC_AVLaughterCycle ] = ExtractAudioSamplesMFCCFromSegmentedFiles(path_AVlaughterCycle, MFCCnotPNCC);
+% [ AudioSamplesPNCC_AVLaughterCycle, AVlaughterCycleAffectBursts ] = ExtractAudioSamplesMFCCFromSegmentedFiles(path_AVlaughterCycle, MFCCnotPNCC);
 
 % load source/AudioSamplesMFCC_IEMOCAP.mat
 % load source/AudioSamplesMFCC_AVLaughterCycle.mat
@@ -22,20 +22,23 @@ clear all
 % clear AudioSamplesMFCC_DBnorm2DBs
 
 
-load source/AudioSamplesPNCC_IEMOCAP.mat
-load source/AudioSamplesPNCC_AVLaughterCycle.mat
-load source/AudioSamplesPNCC_IEMOCAPreject.mat
+% load source/AudioSamplesPNCC_IEMOCAP.mat
+% load source/AudioSamplesPNCC_AVLaughterCycle.mat
+% load source/AudioSamplesPNCC_IEMOCAPreject.mat
 
-% normalization
+% % normalization
+% 
+% [ AudioSamplesPNCC_IEMOCAP ] = AudioSamplesMFCCNormalization( [AudioSamplesPNCC_IEMOCAP;AudioSamplesPNCC_IEMOCAPreject] );
+% [ AudioSamplesPNCC_AVLaughterCycle ] = AudioSamplesMFCCNormalization( AudioSamplesPNCC_AVLaughterCycle );
+% 
+% AffectDataSync=[AudioSamplesPNCC_IEMOCAP;AudioSamplesPNCC_AVLaughterCycle];
+% 
+% % AffectDataSync=[AudioSamplesPNCC_IEMOCAP;AudioSamplesPNCC_AVLaughterCycle;AudioSamplesPNCC_IEMOCAPreject];
+% ind = randperm(length(AffectDataSync));
+% AffectDataSync = AffectDataSync(ind);
 
-[ AudioSamplesPNCC_IEMOCAP ] = AudioSamplesMFCCNormalization( [AudioSamplesPNCC_IEMOCAP;AudioSamplesPNCC_IEMOCAPreject] );
-[ AudioSamplesPNCC_AVLaughterCycle ] = AudioSamplesMFCCNormalization( AudioSamplesPNCC_AVLaughterCycle );
-
-AffectDataSync=[AudioSamplesPNCC_IEMOCAP;AudioSamplesPNCC_AVLaughterCycle];
-
-% AffectDataSync=[AudioSamplesPNCC_IEMOCAP;AudioSamplesPNCC_AVLaughterCycle;AudioSamplesPNCC_IEMOCAPreject];
-ind = randperm(length(AffectDataSync));
-AffectDataSync = AffectDataSync(ind);
+load source/AudioSamplesPNCC_2DBs_DBnorm.mat
+AffectDataSync=AudioSamplesPNCC_2DBs_DBnorm;
 
 LAUGHTER = 1;
 BREATHING = 2;
@@ -57,7 +60,7 @@ for i=1:length(AffectDataSync)
 end
 
 nfoldCV = 3;
-cRange=[-2 4 14];%cRange=[-2 4 34];
-gRange=[-16 1 -13];%gRange=[-13 1 -8];
+cRange=[2 4 10];%cRange=[-2 4 34];
+gRange=[-20 1 -16];%gRange=[-13 1 -8];
 
 [model, bestParam, grid ]= learn_on_trainingData(data, label, cRange, gRange, nfoldCV, 0);

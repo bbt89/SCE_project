@@ -1,4 +1,4 @@
-function [ out ] = ExtractAudioSamplesFromOneSeq ( y , idcount, label,fs, winms, shiftms, MFCCnotPNCC ) 
+function [ out ] = ExtractAudioSamplesFromOneSeq ( y , idcount, label,fileName,sesNumber,gender,speaker,fs, winms, shiftms, MFCCnotPNCC ) 
 %UNTÝTLED4 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -16,6 +16,10 @@ if(MFCCnotPNCC)
         out(end+1,:).data = MFCCs;%extract_stats(MFCCs);
         out(end,:).id = idcount;
         out(end,:).label = label;
+        out(end,:).fileName = fileName;
+        out(end,:).sesNumber = sesNumber;
+        out(end,:).gender = gender;
+        out(end,:).speaker = speaker;
         i  =i + 1;
     end
 else
@@ -30,6 +34,10 @@ else
         out(end+1,:).data = PNCCs;
         out(end,:).id = idcount;
         out(end,:).label = label;
+        out(end,:).fileName = fileName;
+        out(end,:).sesNumber = sesNumber;
+        out(end,:).gender = gender;
+        out(end,:).speaker = speaker;
         i  =i + 1;
     end
 end
